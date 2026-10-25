@@ -1,7 +1,7 @@
 # FS95-and-FS98-Win64-patcher
 
-The code was entirely done with Claude Code. I only supplied Windows Problem Reporting logs and x32dbg screenshots.
-The assembly code is available for anyone to see. Someone on Reddit wanted this on Github. Here it is. I don't know crap about Github at all.
+The code was entirely done with [Claude Code](https://claude.com/product/claude-code). I only supplied Windows Problem Reporting logs and x32dbg screenshots.
+The assembly code is available for anyone to see. Someone on [Reddit](https://www.reddit.com/r/ClaudeAI/comments/1xew9ma/flight_simulator_9598_finally_running_on_64bit/) wanted this on Github. Here it is. I don't know crap about Github at all.
 
 This fixes Flight Simulator for Windows 95 and Flight Simulator 98 on 64-bit Windows:
 - FS95 crashing with exception c000041d (top-down view, secondary windows, cycling views, and so on).
@@ -22,11 +22,11 @@ INSTALL
    Alternatively, copy both games' EXE files to whatever the hell folder you unzipped this at, then move back the patched EXEs to their respective game's main folder.
 2. Close the game, then double-click Patch.bat and allow administrator access when asked.
 3. You don't need DxWnd or compatibility settings for these crashes.
-4. If you get an error relating to modified EXEs, that involves patching EXEs modified by both games' official patches ("fsconv.exe" for FS95; "fsconv98.exe" and "fs98pat1.exe" for '98.)
+4. If you get an error relating to modified EXEs, that involves patching EXEs modified by both games' official patches ("[fsconv.exe](https://web.archive.org/web/19990117005131/microsoft.com/games/fsim/converter.htm)" for FS95; "[fsconv98.exe](https://simviation.com/1/download-file?file=fsconv98.exe)" and "[fs98pat1.exe](https://simviation.com/1/download-file?file=fs98pat1.exe)" for '98.)
    Please patch the original FLTSIM95 and FLTSIM98 EXEs rather than the officially patched ones.
    You can find the originals in the games' CDs or ISOs. FS95's is named FLTSIM95.EX_ in the CD so change the extension to EXE then patch. Don't worry, the games work fine anyways.
 5. The FLTSIM95.EXE inside the FS98 folder is a dummy to trick FS95 addon installers into installing into FS98. It has nothing to do with FS95 itself.
-6. For FS98, I suggest using DDrawCompat to fix the hardware renderer's issue displaying the 2D panel. That also helps with FS2000 which has the same issue.
+6. For FS98, I suggest using [DDrawCompat](https://github.com/narzoul/DDrawCompat) to fix the hardware renderer's issue displaying the 2D panel. That also helps with FS2000 which has the same issue.
    I also suggest that if you install FS98's official patch, backup the original HG2D.DLL and replace the patched version with it,
    as the patched version introduces an annoying bug that wipes out all textures whenever the program's rendering window is clicked at and so on.
    The only expense is the flaps volume will be inconsistent at times.
