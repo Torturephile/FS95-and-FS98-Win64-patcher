@@ -1,7 +1,9 @@
 # FS95-and-FS98-Win64-patcher
 
-The code was entirely done with [Claude Code](https://claude.com/product/claude-code). I only supplied Windows Problem Reporting logs and x32dbg screenshots.
-The assembly code is available for anyone to see. Someone on [Reddit](https://www.reddit.com/r/ClaudeAI/comments/1xew9ma/flight_simulator_9598_finally_running_on_64bit/) wanted this on Github. Here it is. I don't know crap about Github at all.
+The code was entirely done with [Claude Code](https://claude.com/product/claude-code). I only supplied Windows Problem Reporting logs and x32dbg screenshots. In other words, I didn't do crap.
+The assembly code is available for anyone to see and mess with it. Someone on [Reddit](https://www.reddit.com/r/ClaudeAI/comments/1xew9ma/flight_simulator_9598_finally_running_on_64bit/) wanted this on Github.
+Here it is. I don't know crap about Github at all.
+Feel free to contribute and make it better.
 
 This fixes Flight Simulator for Windows 95 and Flight Simulator 98 on 64-bit Windows:
 - FS95 crashing with exception c000041d (top-down view, secondary windows, cycling views, and so on).
