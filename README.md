@@ -3,7 +3,7 @@ FS95/FS98 Win64 Patch, version 3 (2026/10/28)
 
 DISCLAIMER
 
-This was built by Claude Code Opus 5.5. I only fed Claude Windows Problem Reporting error logs and x32dbg screenshots.
+This was built by [Claude Code](https://claude.com/product/claude-code) Opus 5.5. I only fed Claude Windows Problem Reporting error logs and x32dbg screenshots.
 I only created this due to being bored of running *FS95* and *FS98* under VMware and much preferring them to work natively on Windows 10 and 11 like *CFS1*, *FS2000*, and so.
 I just like being able to directly access the game files without turning on a virtual environment, let alone the games run better directly on Windows rather than said virtual environment.
 
@@ -73,3 +73,6 @@ Expected SHA-256 values:
                 patched   D671A56E7A27CFD74DFA13BAD48937F7788F64C268E514FE83B2DE8366694C53
   FLTSIM98.EXE  original  F47C124A1AD44475A8A3A5ECBCE83F5DC5D6E7DAD78CF120B20616738BD99F6A
                 patched   989C0FC53AB6A863219816B362E5036215B583C8EACF74FC858701400A0B7D85
+
+HOW ABOUT THE IMAGES IN THE ROOT FOLDER
+Those are icon upscales utilizing Lospec's [Pixel Art Scaler](https://lospec.com/pixel-art-scaler/), with plenty of manual editing in Microsoft Paint. These were made for fun, that's it.
