@@ -21,6 +21,8 @@ Fixes *Microsoft Flight Simulator for Windows 95* and *Flight Simulator 98* on 6
 - This does not modify the games in any other way so they look and behave the same way they did in their glory days.
 
 WHY THEY CRASH
+
+
 Both games deliberately let some integer divisions fail and rely on their own handler, which Microsoft built into the games, to put in a safe result.
 On 64-bit Windows that handler can't be reached while the game is handling a window message, so Windows ends the games instead.
 
@@ -30,6 +32,7 @@ Every other error, and any divide fault in Windows or other programs' DLLs, is p
 No other game files are changed.
 
 INSTALL
+
 1. Copy these files into the game folder (the one with FLTSIM95.EXE or FLTSIM98.EXE).
    Alternatively, copy both games' EXE files to whatever the hell folder you unzipped this at, then move back the patched EXEs to their respective game's main folder.
 
@@ -51,15 +54,18 @@ INSTALL
    as the patched version introduces an annoying bug that wipes out all textures whenever the program's rendering window is clicked at and so on.
    The only expense is the flaps volume will be inconsistent at times.
 
-The patch:
+THE PATCH
+
 - Only changes an EXE that is the original release or an earlier version of this patch (checked by SHA-256), and changes nothing if anything doesn't match.
 - Saves the original EXEs as FLTSIM95.EXE.bak and FLTSIM98.EXE.bak.
 - Checks the result before writing anything.
 
 UNDO
+
 Double-click Restore.bat. This works even if the .bak file is gone.
 
 ADVANCED
+
 FS95-Win64-Patch.ps1 -GameDir "D:\Games\Flight Simulator 95"   patch another folder
 FS95-Win64-Patch.ps1 -Restore                       restore the original
 
@@ -76,4 +82,5 @@ Expected SHA-256 values:
                 patched   989C0FC53AB6A863219816B362E5036215B583C8EACF74FC858701400A0B7D85
 
 HOW ABOUT THE IMAGES IN THE ROOT FOLDER
+
 Those are icon upscales utilizing Lospec's [Pixel Art Scaler](https://lospec.com/pixel-art-scaler/), with plenty of manual editing in Microsoft Paint. These were made for fun, that's it.
