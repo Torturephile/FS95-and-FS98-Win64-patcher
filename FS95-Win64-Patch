@@ -1,0 +1,276 @@
+# FS95 Win64 Patch, version 3
+# Fixes Microsoft Flight Simulator for Windows 95 (6.0.0.117) crashing on
+# 64-bit Windows with exception c000041d.
+#
+# The game ships with its own handler for integer divisions that fault: it writes a
+# capped result and lets the game carry on. The game only reaches that handler through
+# __try/__except, which 64-bit Windows can't deliver to while a window message is being
+# processed. This patch adds a small section to FLTSIM95.EXE that also registers the game's
+# own handler as a vectored exception handler, which Windows does call in that
+# situation. It is only used for integer divide faults in the game's own files;
+# everything else is passed on to Windows unchanged. No other game file is changed.
+#
+# This script contains only the bytes the patch adds or changes: the new code, plus the
+# original header values and zero padding needed to undo it. None of the game's code.
+#
+# Usage:  FS95-Win64-Patch.ps1 [-GameDir <folder>] [-Restore]
+
+param(
+    [string]$GameDir,
+    [switch]$Restore
+)
+
+$ErrorActionPreference = 'Stop'
+
+$Games = @(
+    @{  Title = 'Flight Simulator for Windows 95'
+        Folders = @('Microsoft Games\Flight Simulator', 'Microsoft Games\Flight Simulator 95')
+        Exe = @{ Name = 'FLTSIM95.EXE'; Size = 103936; Original = '1076F5618D84A3790B0A244D4B5DC44D19B1CA6AAAE085378E76F7AA47184EA0'
+          Target = @{ Label = 'v3'; Size = 104960; Hash = 'D671A56E7A27CFD74DFA13BAD48937F7788F64C268E514FE83B2DE8366694C53'
+              Changes = @(
+                  @(0x00086, '07'),
+                  @(0x000A8, '00F0'),
+                  @(0x000D1, '0002'),
+                  @(0x001D0, '5033'),
+                  @(0x00268, '2E6673666978'),
+                  @(0x00270, 'DB02'),
+                  @(0x00275, 'F001'),
+                  @(0x00279, '04'),
+                  @(0x0027D, '9601'),
+                  @(0x0028C, '20'),
+                  @(0x0028F, '60'),
+                  @(0x19600, '6081EC08010000686FF24100FF15A886410085C00F84F40000008DB010100000813E558BEC830F85E2000000893520724100687BF24100FF15A886410085C00F84C900000089C36888F2410053FF154886410085C00F84B300000089C568A4F2410053FF1548864100A32472410068B7F2410053FF1548864100A32872410068CAF2410053FF1548864100A32C724100833D2472410000746CA12872410085C0746389E66804010000566A00FFD085C074533D04010000734CA12C72410085C074186808010000684872410056FFD085C074073D08010000720CBF48724100B904010000F3A4BE4872410031C931D28A040E84C07409413C5C75F489CAEBF0891530724100681AF141006A01FFD581C40801000061E9563AFFFF8B4424048B008B0881F9940000C0740D81F9950000C0740531C0C20400833D3072410000740CFF700CE80A00000085C074E6FF25207241005589E581EC140200005356578D45FC50FF75086A06FF152472410085C00F84EE0000008B5DFCF7C3FFFF00007526BE38724100B9040000008B0689C281E20000FFFF39DA750983E0030F85B700000083C604E2E48DBDF4FEFFFF68040100005753FF152872410085C00F84A20000003D040100000F839700000089FEA12C72410085C074208D95ECFDFFFF68080100005257FFD085C0740D3D0801000073068DB5ECFDFFFFBF487241008B0D307241008A068A1784C074273C4172063C5A77020C2080FA41720880FA5A770380CA2038D0750C46474975D8B801000000EB05B802000000F7C3FFFF0000751A8B0D34724100FF053472410083E10389DA09C289148D3872410083F8010F94C00FB6C0EB05B8010000005F5E5BC9C20400444956545241502E444C4C004B45524E454C33322E444C4C00416464566563746F726564457863657074696F6E48616E646C6572004765744D6F64756C6548616E646C65457841004765744D6F64756C6546696C654E616D6541004765744C6F6E67506174684E616D6541000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000')
+              )
+              Undo    = @(
+                  @(0x00086, '06'),
+                  @(0x000A8, '702B'),
+                  @(0x000D1, 'F001'),
+                  @(0x001D0, '1832'),
+                  @(0x00268, '000000000000'),
+                  @(0x00270, '0000'),
+                  @(0x00275, '0000'),
+                  @(0x00279, '00'),
+                  @(0x0027D, '0000'),
+                  @(0x0028C, '00'),
+                  @(0x0028F, '00')
+              ) }
+          Older  = @(
+            @{ Label = 'v2'; Size = 103936; Hash = 'BAA742272EDA591A8AA6B64107EEF7F80D684E7352D419F7023D4371586BC805'
+              Changes = @(
+                  @(0x000A8, 'D02E'),
+                  @(0x00180, '0020'),
+                  @(0x122D0, '5668182F41'),
+                  @(0x122D6, 'FF15A88641'),
+                  @(0x122DC, '85C074328DB01010'),
+                  @(0x122E6, '813E558BEC83752468242F41'),
+                  @(0x122F3, 'FF15A88641'),
+                  @(0x122F9, '85C0741568312F41'),
+                  @(0x12302, '50FF15488641'),
+                  @(0x12309, '85C07405566A01FFD05EE958FCFFFF444956545241502E444C4C'),
+                  @(0x12324, '4B45524E454C33322E444C4C'),
+                  @(0x12331, '416464566563746F726564457863657074696F6E48616E646C6572')
+              )
+              Undo    = @(
+                  @(0x000A8, '702B'),
+                  @(0x00180, 'CC1E'),
+                  @(0x122D0, '0000000000'),
+                  @(0x122D6, '0000000000'),
+                  @(0x122DC, '0000000000000000'),
+                  @(0x122E6, '000000000000000000000000'),
+                  @(0x122F3, '0000000000'),
+                  @(0x122F9, '0000000000000000'),
+                  @(0x12302, '000000000000'),
+                  @(0x12309, '0000000000000000000000000000000000000000000000000000'),
+                  @(0x12324, '000000000000000000000000'),
+                  @(0x12331, '000000000000000000000000000000000000000000000000000000')
+              ) }
+          )
+        }
+        OldDllPatches = @(
+            @{ Name = 'G3D.DLL';    Original = '95C10D2DDD9A298675ED93AC75755F37387D2C02F39900DB1E23A0210A15F55A'; Patched = '349BFA1CD5BCC0160E4FFF6221F89DF77D451A0A8FE1FBBE136270AA9336B932' },
+            @{ Name = 'WINDOW.DLL'; Original = 'EB1860D212708751D3E44E96F582BA47C833F285228BF6BC40715933A2C1E9C8'; Patched = '8A05094679F89056C633EE526DB4E844F77434319B4D7DD94A7A2C1816906A6B' }
+        )
+    }
+)
+
+function Get-BytesHash([byte[]]$Bytes) {
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try { return ([System.BitConverter]::ToString($sha.ComputeHash($Bytes))).Replace('-', '') }
+    finally { $sha.Dispose() }
+}
+
+function Get-FileHashSafe([string]$Path) {
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return $null }
+    return Get-BytesHash ([System.IO.File]::ReadAllBytes($Path))
+}
+
+# Copy $Bytes resized to $Size, then write each @(offset, 'hex') entry over it.
+function Set-Bytes([byte[]]$Bytes, [int]$Size, $List) {
+    $out = New-Object byte[] $Size
+    [System.Array]::Copy($Bytes, $out, [System.Math]::Min($Bytes.Length, $Size))
+    foreach ($c in $List) {
+        $offset = [int]$c[0]; $hex = [string]$c[1]
+        for ($i = 0; $i -lt $hex.Length / 2; $i++) {
+            $out[$offset + $i] = [System.Convert]::ToByte($hex.Substring($i * 2, 2), 16)
+        }
+    }
+    return ,$out
+}
+
+# Returns the original release bytes for the original or any known patched version, else $null.
+function Get-OriginalBytes($Exe, [byte[]]$Bytes) {
+    $h = Get-BytesHash $Bytes
+    if ($h -eq $Exe.Original) { return ,$Bytes }
+    foreach ($v in @($Exe.Target) + @($Exe.Older)) {
+        if ($h -eq $v.Hash) {
+            $o = Set-Bytes $Bytes $Exe.Size $v.Undo
+            if ((Get-BytesHash $o) -eq $Exe.Original) { return ,$o }
+        }
+    }
+    return $null
+}
+
+function Get-VersionLabel($Exe, [string]$Hash) {
+    if ($Hash -eq $Exe.Original) { return 'original' }
+    foreach ($v in @($Exe.Target) + @($Exe.Older)) { if ($Hash -eq $v.Hash) { return $v.Label } }
+    return $null
+}
+
+# Backups: <file>.bak, or <file>.orig.bak when a .bak that isn't the original is in the way.
+function Find-OriginalBackup([string]$File, [string]$OriginalHash) {
+    foreach ($b in @("$File.bak", "$File.orig.bak")) {
+        if ((Get-FileHashSafe $b) -eq $OriginalHash) { return $b }
+    }
+    return $null
+}
+
+function Get-BackupPath([string]$File, [string]$OriginalHash) {
+    $h = Get-FileHashSafe "$File.bak"
+    if ($h -eq $null -or $h -eq $OriginalHash) { return "$File.bak" }
+    return "$File.orig.bak"
+}
+
+function Find-GameFolder($Game) {
+    $candidates = @()
+    if ($GameDir) { $candidates += $GameDir }
+    $candidates += $PSScriptRoot
+    foreach ($root in @(${env:ProgramFiles(x86)}, $env:ProgramFiles, "$env:SystemDrive\")) {
+        if ($root) { foreach ($f in $Game.Folders) { $candidates += (Join-Path $root $f) } }
+    }
+    foreach ($c in $candidates) {
+        if ($c -and (Test-Path -LiteralPath (Join-Path $c $Game.Exe.Name) -PathType Leaf)) { return $c }
+    }
+    return $null
+}
+
+Write-Host ''
+Write-Host 'FS95 Win64 Patch v3' -ForegroundColor Cyan
+Write-Host ''
+
+$found = @()
+foreach ($g in $Games) {
+    $dir = Find-GameFolder $g
+    if ($dir) { $found += ,@($g, $dir) }
+}
+if ($found.Count -eq 0) {
+    Write-Host 'Could not find FLTSIM95.EXE.' -ForegroundColor Red
+    Write-Host 'Put this patch in the game folder, or run:  FS95-Win64-Patch.ps1 -GameDir "C:\path\to\Flight Simulator 95"'
+    exit 1
+}
+
+# Each action: Label, Kind ('write' or 'copy'), Target, Bytes or Source, Message
+$actions = @()
+$problem = $false
+
+foreach ($pair in $found) {
+    $g = $pair[0]; $dir = $pair[1]; $x = $g.Exe
+    Write-Host "$($g.Title)" -ForegroundColor White
+    Write-Host "  Folder: $dir"
+
+    $exe = Join-Path $dir $x.Name
+    $cur = [System.IO.File]::ReadAllBytes($exe)
+    $curHash = Get-BytesHash $cur
+    $label = Get-VersionLabel $x $curHash
+
+    if ($Restore) {
+        if ($label -eq 'original') {
+            Write-Host "  $($x.Name): already the original."
+        } else {
+            $orig = $null
+            if ($label) { $orig = Get-OriginalBytes $x $cur }
+            if ($orig) {
+                $actions += ,@($x.Name, 'write', $exe, $orig, 'original restored')
+            } else {
+                $bak = Find-OriginalBackup $exe $x.Original
+                if ($bak) {
+                    $actions += ,@($x.Name, 'copy', $exe, $bak, "original restored from $(Split-Path $bak -Leaf)")
+                } else {
+                    Write-Host "  $($x.Name): not a version this patch knows, and no backup of the original was found." -ForegroundColor Red
+                    $problem = $true
+                }
+            }
+        }
+    } elseif ($label -eq $x.Target.Label) {
+        Write-Host "  $($x.Name): already patched." -ForegroundColor Green
+    } elseif (-not $label) {
+        Write-Host "  $($x.Name): not the original release (unknown version or already modified)." -ForegroundColor Red
+        $problem = $true
+    } else {
+        $orig = Get-OriginalBytes $x $cur
+        $new = $null
+        if ($orig) { $new = Set-Bytes $orig $x.Target.Size $x.Target.Changes }
+        if (-not $new -or (Get-BytesHash $new) -ne $x.Target.Hash) {
+            Write-Host "  $($x.Name): internal check failed." -ForegroundColor Red
+            $problem = $true
+        } else {
+            if (-not (Find-OriginalBackup $exe $x.Original)) {
+                $bak = Get-BackupPath $exe $x.Original
+                $actions += ,@($x.Name, 'write', $bak, $orig, "original saved as $(Split-Path $bak -Leaf)")
+            }
+            if ($label -eq 'original') { $msg = 'patched' } else { $msg = "updated from patch $label" }
+            $actions += ,@($x.Name, 'write', $exe, $new, $msg)
+        }
+    }
+
+    # Undo version 1's DLL patches: they're no longer needed. Done when patching and when restoring.
+    foreach ($old in $g.OldDllPatches) {
+        $dll = Join-Path $dir $old.Name
+        if ((Get-FileHashSafe $dll) -ne $old.Patched) { continue }
+        $bak = Find-OriginalBackup $dll $old.Original
+        if ($bak) {
+            $actions += ,@($old.Name, 'copy', $dll, $bak, 'original put back (the version 1 DLL patch is no longer needed)')
+        } else {
+            Write-Host "  $($old.Name): has the version 1 patch but no backup of the original was found. It still works and can stay." -ForegroundColor Yellow
+        }
+    }
+    Write-Host ''
+}
+
+if ($problem) {
+    Write-Host 'Nothing was changed. Fix the problems above and run the patch again.' -ForegroundColor Red
+    exit 1
+}
+if ($actions.Count -eq 0) {
+    Write-Host 'Nothing to do.' -ForegroundColor Green
+    exit 0
+}
+
+$failed = $false
+foreach ($a in $actions) {
+    $label = $a[0]; $kind = $a[1]; $target = $a[2]; $payload = $a[3]; $msg = $a[4]
+    if ($failed) { break }
+    try {
+        if ($kind -eq 'write') { [System.IO.File]::WriteAllBytes($target, [byte[]]$payload) }
+        else { Copy-Item -LiteralPath $payload -Destination $target -Force }
+        Write-Host "  $($label): $msg." -ForegroundColor Green
+    } catch {
+        Write-Host "  $($label): could not write $(Split-Path $target -Leaf). Close the game, and run the patch as administrator if the game is under Program Files." -ForegroundColor Red
+        $failed = $true
+    }
+}
+
+Write-Host ''
+if ($failed) { exit 1 }
+if ($Restore) { Write-Host 'Done.' -ForegroundColor Cyan }
+else { Write-Host 'Done. To undo, run Restore.bat (or this script with -Restore).' -ForegroundColor Cyan }
+exit 0
