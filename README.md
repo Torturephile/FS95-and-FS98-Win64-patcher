@@ -6,6 +6,7 @@ DISCLAIMER
 This was built by [Claude Code](https://claude.com/product/claude-code) Opus 5.5. I only fed Claude Windows Problem Reporting error logs and x32dbg screenshots.
 I only created this due to being bored of running *FS95* and *FS98* under VMware and much preferring them to work natively on Windows 10 and 11 like *CFS1*, *FS2000*, and so.
 I just like being able to directly access the game files without turning on a virtual environment, let alone the games run better directly on Windows rather than said virtual environment.
+Please contribute if you like, maybe add some actual human-written code instead of taking a shortcut like I did.
 
 DIFFERENCES FROM VERSION 2 (2026/10/25)
 
