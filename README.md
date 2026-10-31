@@ -1,3 +1,6 @@
+# Announcement:
+# A simpler drag and drop DLL method to get the games running, [FSDIVFIX.DLL](https://github.com/Torturephile/FSDIVFIX-FS95-and-FS98-running-on-Windows-64-bit), is available. It works even with official patches of the games and does not require to modify any game files at all unlike this method.
+
 FS95/FS98 Win64 Patch, version 3 (2026/10/28)
 =================================
 
@@ -21,7 +24,6 @@ Fixes *Microsoft Flight Simulator for Windows 95* and *Flight Simulator 98* on 6
 - This does not modify the games in any other way so they look and behave the same way they did in their glory days.
 
 WHY THEY CRASH
-
 
 Both games deliberately let some integer divisions fail and rely on their own handler, which Microsoft built into the games, to put in a safe result.
 On 64-bit Windows that handler can't be reached while the game is handling a window message, so Windows ends the games instead.
