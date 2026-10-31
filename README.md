@@ -54,6 +54,8 @@ INSTALL
    as the patched version introduces an annoying bug that wipes out all textures whenever the program's rendering window is clicked at and so on.
    The only expense is the flaps volume will be inconsistent at times.
 
+7. I suggest getting [WinHlp32.EXE](https://github.com/knuth-konrad/winhlp32-on-windows10), as these games need it to display help items, similar to the Learing Center from *FS2004* and *FSX*.
+
 THE PATCH
 
 - Only changes an EXE that is the original release or an earlier version of this patch (checked by SHA-256), and changes nothing if anything doesn't match.
